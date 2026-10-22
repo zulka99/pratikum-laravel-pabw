@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laporan Praktikum Modul 6 - Authentication dan Integrasi LaporBanjir</title>
+<style>
+    @page {
+        size: Letter;
+        margin: 2.2cm 2.2cm 2.2cm 2.2cm;
+        @bottom-center {
+            content: counter(page);
+            font-family: Arial, sans-serif;
+            font-size: 9pt;
+            color: #555;
+        }
+    }
+
+    @page cover {
+        margin: 1.8cm 2.2cm;
+        @bottom-center { content: none; }
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+        font-family: "Times New Roman", Times, serif;
+        font-size: 11.5pt;
+        line-height: 1.45;
+        color: #111;
+        margin: 0;
+        background: #fff;
+    }
+
+    .cover {
+        page: cover;
+        page-break-after: always;
+        text-align: center;
+        padding-top: 0.6cm;
+    }
+
+    .cover .logo {
+        width: 7.2cm;
+        margin: 0.2cm auto 0.9cm auto;
+        display: block;
+    }
+
+    .cover h1 {
+        font-family: "Times New Roman", Times, serif;
+        font-size: 18pt;
+        font-weight: bold;
+        line-height: 1.35;
+        margin: 0 0 5pt 0;
+    }
+
+    .cover h2 {
+        font-family: "Times New Roman", Times, serif;
+        font-size: 13pt;
+        font-weight: bold;
+        line-height: 1.4;
+        margin: 0 0 0.5cm 0;
+    }
+
+    .cover .oleh {
+        font-size: 12pt;
+        margin: 0.3cm 0 0.3cm 0;
+    }
+
+    table.identity {
+        width: 72%;
+        margin: 0 auto 1cm auto;
+        border-collapse: collapse;
+        font-size: 11.5pt;
+    }
+
+    table.identity td {
+        border: none;
+        padding: 2.5pt 6pt;
+        text-align: left;
+        vertical-align: top;
+    }
+
+    table.identity td:first-child { width: 38%; }
+    table.identity td:nth-child(2) { width: 3%; }
+
+    .cover .program {
+        font-size: 12pt;
+        font-weight: bold;
+        line-height: 1.55;
+        margin-top: 1.1cm;
+    }
+
+    h1.section {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 13.5pt;
+        font-weight: bold;
+        margin: 16pt 0 8pt 0;
+        padding-bottom: 3pt;
+        border-bottom: 1.2pt solid #222;
+        page-break-before: always;
+        page-break-after: avoid;
+    }
+
+    h1.section:last-of-type {
+        page-break-before: auto;
+    }
+
+    h2 {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 11.5pt;
+        font-weight: bold;
+        margin: 12pt 0 4pt 0;
+        page-break-after: avoid;
+    }
+
+    h3 {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 11pt;
+        font-weight: bold;
+        margin: 10pt 0 3pt 0;
+        page-break-after: avoid;
+    }
+
+    p {
+        margin: 0 0 6pt 0;
+        text-align: justify;
+        orphans: 3;
+        widows: 3;
+    }
+
+    ul, ol {
+        margin: 0 0 8pt 0;
+        padding-left: 18pt;
+    }
+
+    li {
+        margin-bottom: 2pt;
+        text-align: justify;
+        orphans: 3;
+        widows: 3;
+    }
+
+    pre {
+        font-family: "Courier New", Courier, monospace;
+        font-size: 8.4pt;
+        line-height: 1.3;
+        background: #f7f7f7;
+        border-left: 2.5pt solid #555;
+        padding: 6pt 8pt;
+        white-space: pre-wrap;
+        margin: 4pt 0 8pt 0;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    code {
+        font-family: "Courier New", Courier, monospace;
+        font-size: 9.4pt;
+        background: #f3f3f3;
+        padding: 0 1.5pt;
+    }
+
+    pre code {
+        background: transparent;
+        padding: 0;
+        font-size: 8.4pt;
+    }
+
+    table.data {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 6pt 0 9pt 0;
+        font-size: 9pt;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    table.data th,
+    table.data td {
+        border: 0.6pt solid #999;
+        padding: 3pt 5pt;
+        vertical-align: top;
+        text-align: left;
+    }
+
+    table.data th {
+        background: #eeeeee;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 9pt;
+    }
+
+    table.data tr {
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    figure.figure {
+        text-align: center;
+        margin: 6pt 0 8pt 0;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    .figure img {
+        display: block;
+        max-width: 84%;
+        max-height: 11.5cm;
+        margin: 0 auto;
+        border: 0.6pt solid #bbbbbb;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    figure.figure.wide img {
+        max-width: 100%;
+        max-height: 8cm;
+    }
+
+    .caption {
+        font-size: 9.5pt;
+        font-style: italic;
+        margin-top: 4pt;
+        text-align: center;
+        page-break-before: avoid;
+        break-before: avoid;
+        page-break-after: avoid;
+    }
+
+    a { color: #000; text-decoration: none; }
+
+    @media print {
+        body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+</style>
+</head>
+<body>
+
+<div class="cover">
+    <h1>Laporan TA Modul06 LaporBanjir</h1>
+
+    <img class="logo" src="logo-telkom.png" alt="Logo Telkom University">
+
+    <div class="oleh">Oleh:</div>
+
+    <table class="identity">
+        <tr><td>Nama</td><td>:</td><td>Zulka Ridho Mahmudi</td></tr>
+        <tr><td>NIM</td><td>:</td><td>707012500018</td></tr>
+        <tr><td>Kelas</td><td>:</td><td>D4 SIKC 49-04</td></tr>
+        <tr><td>Mata Kuliah</td><td>:</td><td>Pemrograman Aplikasi Berbasis Web</td></tr>
+        <tr><td>Dosen Pengampu</td><td>:</td><td>Diash Firdaus</td></tr>
+    </table>
+
+    <div class="program">
+        PROGRAM STUDI S.Tr SISTEM INFORMASI KOTA CERDAS<br>
+        FAKULTAS ILMU TERAPAN<br>
+        TELKOM UNIVERSITY<br>
+        BANDUNG<br>
+        2026
+    </div>
+</div>
+<h1 class="section">A. Tujuan Praktikum</h1>
+<ul>
+<li>Memahami konsep authentication dan authorization pada Laravel.</li>
+<li>Memahami peran session, hashing password, dan middleware.</li>
+<li>Membuat fitur register, login, dan logout secara manual tanpa Breeze.</li>
+<li>Menerapkan validasi input dan penyimpanan akun ke database.</li>
+<li>Melindungi halaman petugas dengan middleware <code>auth</code>.</li>
+<li>Membuat akun petugas dummy menggunakan seeder dan Faker.</li>
+<li>Mengintegrasikan fitur LaporBanjir dari Modul 4 ke dalam project Modul 6.</li>
+<li>Membedakan alur warga yang melapor tanpa akun dan petugas yang mengelola laporan.</li>
+<li>Menguji fitur authentication dan pelaporan melalui browser serta database.</li>
+</ul>
+
+<h1 class="section">B. Alat dan Bahan</h1>
+<h2>B.1 Perangkat Keras</h2>
+<ul>
+<li>Laptop dengan prosesor minimal 1 GHz.</li>
+<li>RAM minimal 4 GB, disarankan 8 GB.</li>
+<li>Ruang penyimpanan kosong minimal 2 GB.</li>
+<li>Koneksi internet untuk Composer dan pemuatan aset CDN.</li>
+</ul>
+<h2>B.2 Perangkat Lunak</h2>
+<ul>
+<li>macOS.</li>
+<li>XAMPP: Apache, MariaDB 10.4.28, dan phpMyAdmin.</li>
+<li>PHP 8.5.0.</li>
+<li>Laravel Framework 13.38.0.</li>
+<li>Composer 2.8.12.</li>
+<li>Node.js v24.15.0 dan NPM 11.12.1 (tersedia, tetapi tidak digunakan karena aset memakai CDN).</li>
+<li>Visual Studio Code.</li>
+<li>Google Chrome atau Safari.</li>
+<li>Git.</li>
+<li>Bootstrap 5.3.0 dan Font Awesome 6.4.0 melalui CDN.</li>
+</ul>
+<p>Project ini <strong>tidak menggunakan Laravel Breeze</strong>. Authentication dibuat manual di dalam folder <code>app/Http/Controllers/Auth</code>. Dengan demikian, tidak ada <code>routes/auth.php</code>, tidak ada dependensi Breeze, dan tidak diperlukan build Vite untuk halaman authentication maupun LaporBanjir. Ketiadaan Breeze dan Vite juga membuat Node.js/NPM tidak wajib dijalankan pada project ini.</p>
+<h2>B.3 Konfigurasi Project</h2>
+<ul>
+<li>Lokasi project: <code>TA_Modul6</code>.</li>
+<li>Database: <code>db_laporanbanjir</code>.</li>
+<li>Host: <code>127.0.0.1</code>.</li>
+<li>Port: <code>3307</code>.</li>
+</ul>
+<p>Isi file <code>.env</code> yang digunakan:</p>
+<pre><code class="language-env">APP_NAME=Laravel
+APP_URL=http://localhost:8000
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3307
+DB_DATABASE=db_laporanbanjir
+DB_USERNAME=root
+DB_PASSWORD=
+
+SESSION_DRIVER=database
+</code></pre>
+<p>Konfigurasi tersebut menghasilkan empat tabel utama:</p>
+<table class="data">
+<thead>
+<tr>
+<th>Tabel</th>
+<th>Fungsi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>users</code></td>
+<td>Menyimpan akun petugas.</td>
+</tr>
+<tr>
+<td><code>password_reset_tokens</code></td>
+<td>Menyimpan token reset password bawaan Laravel.</td>
+</tr>
+<tr>
+<td><code>sessions</code></td>
+<td>Menyimpan session login karena <code>SESSION_DRIVER=database</code>.</td>
+</tr>
+<tr>
+<td><code>laporan</code></td>
+<td>Menyimpan laporan banjir dari warga.</td>
+</tr>
+</tbody>
+</table>
+
+<h1 class="section">C. Langkah-Langkah Praktikum</h1>
+<h2>C.1 Persiapan Project dan Database</h2>
+<ul>
+<li>Jalankan <code>composer install</code>.</li>
+<li>Siapkan file <code>.env</code> dan sesuaikan koneksi database.</li>
+<li>Jalankan <code>php artisan key:generate</code>.</li>
+<li>Jalankan migration untuk membuat tabel.</li>
+<li>Jalankan seeder untuk mengisi akun petugas dan data laporan.</li>
+</ul>
+<pre><code class="language-bash">composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
+php artisan db:seed
+</code></pre>
+<p>Untuk penyiapan ulang dari kondisi bersih, digunakan:</p>
+<pre><code class="language-bash">php artisan migrate:fresh --seed
+</code></pre>
+<p>Perintah tersebut menghasilkan:</p>
+<ul>
+<li>5 akun petugas dummy.</li>
+<li>1 akun admin.</li>
+<li>15 data laporan banjir.</li>
+</ul>
+<p>Tabel <code>sessions</code> wajib ada karena project memakai <code>SESSION_DRIVER=database</code>. Tanpa tabel tersebut, status login tidak dapat dipertahankan.</p>
+<h2>C.2 Pembuatan Authentication Manual</h2>
+<p>Project ini memakai jalur <strong>authentication manual tanpa Laravel Breeze</strong>. Pilihan ini diambil karena tugas LaporBanjir pada Modul 6 meminta fitur register, login, dan logout dibuat tanpa Breeze, sehingga alur validasi, hashing, session, dan middleware dapat terlihat langsung.</p>
+<p>File utama yang digunakan:</p>
+<ul>
+<li><code>app/Http/Controllers/Auth/RegisterController.php</code></li>
+<li><code>app/Http/Controllers/Auth/LoginController.php</code></li>
+<li><code>app/Http/Controllers/HomeController.php</code></li>
+<li><code>routes/web.php</code></li>
+<li><code>resources/views/auth/login.blade.php</code></li>
+<li><code>resources/views/auth/register.blade.php</code></li>
+<li><code>resources/views/layouts/app.blade.php</code></li>
+</ul>
+<p>Modul 6 memang juga membahas Laravel Breeze pada subbab 6.4.5, tetapi subbab 6.4.10 menyediakan jalur manual. Untuk tugas LaporBanjir, jalur manual yang dipakai agar tidak terjadi tumpang tindih route dan view antara Breeze dan authentication buatan sendiri.</p>
+<h2>C.3 Membuat RegisterController</h2>
+<ul>
+<li>File: <code>app/Http/Controllers/Auth/RegisterController.php</code>.</li>
+<li><code>create()</code> menampilkan form registrasi.</li>
+<li><code>store()</code> memvalidasi input, membuat user, lalu langsung login.</li>
+</ul>
+<pre><code class="language-php">public function store(Request $request)
+{
+    $request-&gt;validate([
+        'name' =&gt; ['required', 'string', 'max:255'],
+        'email' =&gt; ['required', 'string', 'email', 'max:255', 'unique:users'],
+        'password' =&gt; ['required', 'confirmed', Rules\Password::defaults()],
+    ]);
+
+    $user = User::create([
+        'name' =&gt; $request-&gt;name,
+        'email' =&gt; $request-&gt;email,
+        'password' =&gt; Hash::make($request-&gt;password),
+    ]);
+
+    event(new Registered($user));
+
+    Auth::login($user);
+
+    return redirect()-&gt;route('dashboard');
+}
+</code></pre>
+<ul>
+<li><code>unique:users</code> mencegah email ganda.</li>
+<li><code>confirmed</code> mewajibkan input <code>password_confirmation</code>.</li>
+<li><code>Hash::make()</code> mengubah password menjadi hash bcrypt.</li>
+<li><code>Auth::login()</code> langsung membuat session login.</li>
+<li>Pengguna diarahkan ke dashboard setelah registrasi berhasil.</li>
+</ul>
+<p>Pada tampilan, halaman ini diberi label <strong>Registrasi Petugas</strong> dan catatan bahwa warga tidak perlu mendaftar.</p>
+<h2>C.4 Membuat LoginController</h2>
+<ul>
+<li>File: <code>app/Http/Controllers/Auth/LoginController.php</code>.</li>
+<li><code>create()</code> menampilkan form login.</li>
+<li><code>store()</code> memverifikasi email dan password.</li>
+<li><code>destroy()</code> menghapus session login.</li>
+</ul>
+<pre><code class="language-php">public function store(Request $request)
+{
+    $credentials = $request-&gt;validate([
+        'email' =&gt; ['required', 'email'],
+        'password' =&gt; ['required'],
+    ]);
+
+    if (Auth::attempt($credentials, $request-&gt;remember)) {
+        $request-&gt;session()-&gt;regenerate();
+
+        return redirect()-&gt;intended('dashboard');
+    }
+
+    return back()-&gt;withErrors([
+        'email' =&gt; 'Email atau password yang Anda masukkan salah.',
+    ]);
+}
+
+public function destroy(Request $request)
+{
+    Auth::logout();
+
+    $request-&gt;session()-&gt;invalidate();
+    $request-&gt;session()-&gt;regenerateToken();
+
+    return redirect('/');
+}
+</code></pre>
+<ul>
+<li><code>Auth::attempt()</code> mencocokkan email dan password dengan hash di database.</li>
+<li>Parameter <code>remember</code> mengaktifkan fitur Remember Me.</li>
+<li><code>session()-&gt;regenerate()</code> mencegah session fixation.</li>
+<li><code>intended()</code> mengarahkan pengguna ke halaman tujuan atau dashboard.</li>
+<li>Logout menghapus session dan mengganti token CSRF.</li>
+</ul>
+<p>Halaman login diberi label <strong>Login Petugas</strong> agar alurnya jelas berbeda dari form warga.</p>
+<h2>C.5 Pengaturan Route dan Middleware</h2>
+<p>File: <code>routes/web.php</code>.</p>
+<pre><code class="language-php">Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/laporbanjir', [LaporanController::class, 'form'])-&gt;name('laporbanjir.form');
+Route::post('/laporbanjir/simpan', [LaporanController::class, 'simpan'])-&gt;name('laporbanjir.simpan');
+
+Route::get('/register', [RegisterController::class, 'create'])-&gt;name('register');
+Route::post('/register', [RegisterController::class, 'store']);
+
+Route::get('/login', [LoginController::class, 'create'])-&gt;name('login');
+Route::post('/login', [LoginController::class, 'store']);
+
+Route::post('/logout', [LoginController::class, 'destroy'])-&gt;name('logout');
+
+Route::middleware('auth')-&gt;group(function () {
+    Route::get('/dashboard', [HomeController::class, 'dashboard'])-&gt;name('dashboard');
+    Route::get('/profile', [HomeController::class, 'profile'])-&gt;name('profile');
+    Route::get('/daftar-laporan', [LaporanController::class, 'daftar'])-&gt;name('laporan.daftar');
+});
+</code></pre>
+<p>Ringkasan route:</p>
+<table class="data">
+<thead>
+<tr>
+<th>Method</th>
+<th>URI</th>
+<th>Name</th>
+<th>Controller</th>
+<th>Akses</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/</code></td>
+<td>-</td>
+<td>Closure</td>
+<td>Publik</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/laporbanjir</code></td>
+<td><code>laporbanjir.form</code></td>
+<td><code>LaporanController@form</code></td>
+<td>Publik</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/laporbanjir/simpan</code></td>
+<td><code>laporbanjir.simpan</code></td>
+<td><code>LaporanController@simpan</code></td>
+<td>Publik</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/register</code></td>
+<td><code>register</code></td>
+<td><code>RegisterController@create</code></td>
+<td>Publik</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/register</code></td>
+<td>-</td>
+<td><code>RegisterController@store</code></td>
+<td>Publik</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/login</code></td>
+<td><code>login</code></td>
+<td><code>LoginController@create</code></td>
+<td>Publik</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/login</code></td>
+<td>-</td>
+<td><code>LoginController@store</code></td>
+<td>Publik</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/logout</code></td>
+<td><code>logout</code></td>
+<td><code>LoginController@destroy</code></td>
+<td>Publik</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/dashboard</code></td>
+<td><code>dashboard</code></td>
+<td><code>HomeController@dashboard</code></td>
+<td><code>auth</code></td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/profile</code></td>
+<td><code>profile</code></td>
+<td><code>HomeController@profile</code></td>
+<td><code>auth</code></td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/daftar-laporan</code></td>
+<td><code>laporan.daftar</code></td>
+<td><code>LaporanController@daftar</code></td>
+<td><code>auth</code></td>
+</tr>
+</tbody>
+</table>
+<p>Halaman <strong>dashboard</strong>, <strong>profil</strong>, dan <strong>daftar laporan</strong> dilindungi middleware <code>auth</code>. Jika dibuka tanpa login, pengguna diarahkan ke route <code>login</code>. Route <code>login</code> wajib memiliki nama <code>login</code> agar redirect middleware bekerja.</p>
+<p>Pada implementasi ini, route login dan register tidak dibungkus middleware <code>guest</code>. Pengguna yang sudah login masih dapat membuka halaman login/register secara langsung. Pembatasan utama tetap berada pada middleware <code>auth</code> untuk halaman petugas.</p>
+<h2>C.6 Membuat Layout dan Navigasi</h2>
+<ul>
+<li>File: <code>resources/views/layouts/app.blade.php</code>.</li>
+<li>Layout memakai Bootstrap 5.3.0 dan Font Awesome 6.4.0 melalui CDN.</li>
+<li>Menu berubah otomatis dengan directive <code>@auth</code> dan <code>@else</code>.</li>
+<li>Logout dibuat dalam form <code>POST</code> dengan <code>@csrf</code>.</li>
+</ul>
+<pre><code class="language-blade">@auth
+    &lt;a href=&quot;{{ route('dashboard') }}&quot;&gt;Dashboard&lt;/a&gt;
+    &lt;a href=&quot;{{ route('laporan.daftar') }}&quot;&gt;Daftar Laporan&lt;/a&gt;
+    &lt;a href=&quot;{{ route('profile') }}&quot;&gt;Profil Petugas&lt;/a&gt;
+    &lt;form method=&quot;POST&quot; action=&quot;{{ route('logout') }}&quot;&gt;
+        @csrf
+        &lt;button type=&quot;submit&quot;&gt;Logout&lt;/button&gt;
+    &lt;/form&gt;
+@else
+    &lt;a href=&quot;{{ route('laporbanjir.form') }}&quot;&gt;Lapor Banjir&lt;/a&gt;
+    &lt;a href=&quot;{{ route('login') }}&quot;&gt;Login Petugas&lt;/a&gt;
+    &lt;a href=&quot;{{ route('register') }}&quot;&gt;Registrasi Petugas&lt;/a&gt;
+@endauth
+</code></pre>
+<ul>
+<li>Guest melihat menu <strong>Lapor Banjir</strong>, <strong>Login Petugas</strong>, dan <strong>Registrasi Petugas</strong>.</li>
+<li>Petugas yang sudah login melihat <strong>Dashboard</strong>, <strong>Daftar Laporan</strong>, <strong>Profil Petugas</strong>, dan <strong>Logout</strong>.</li>
+<li>Layout juga menampilkan pesan sukses, pesan error, dan error validasi.</li>
+<li><code>@yield('content')</code> menjadi tempat isi halaman.</li>
+</ul>
+<p>Halaman <code>welcome</code> juga ditambahkan tautan <strong>Lapor Banjir</strong>, <strong>Login Petugas</strong>, dan <strong>Registrasi Petugas</strong> pada bagian navigasi. Halaman awal masih menggunakan tampilan bawaan Laravel, tetapi pintu masuk warga dan petugas sudah dipisahkan.</p>
+<h2>C.7 Membuat Halaman Dashboard dan Profil</h2>
+<ul>
+<li>File controller: <code>app/Http/Controllers/HomeController.php</code>.</li>
+<li><code>dashboard()</code> menampilkan <code>resources/views/dashboard.blade.php</code>.</li>
+<li><code>profile()</code> menampilkan <code>resources/views/profile.blade.php</code>.</li>
+</ul>
+<pre><code class="language-php">public function dashboard()
+{
+    return view('dashboard');
+}
+
+public function profile()
+{
+    return view('profile');
+}
+</code></pre>
+<p>Dashboard menampilkan pesan konfirmasi bahwa pengguna sudah login. Halaman profil menampilkan data pengguna yang sedang login:</p>
+<pre><code class="language-blade">&lt;p&gt;Name: {{ Auth::user()-&gt;name }}&lt;/p&gt;
+&lt;p&gt;Email: {{ Auth::user()-&gt;email }}&lt;/p&gt;
+&lt;p&gt;Account created: {{ Auth::user()-&gt;created_at-&gt;diffForHumans() }}&lt;/p&gt;
+</code></pre>
+<ul>
+<li><code>Auth::user()</code> mengambil data pengguna dari session.</li>
+<li><code>diffForHumans()</code> menampilkan waktu pembuatan akun dalam format yang mudah dibaca.</li>
+<li>Kedua halaman berada di dalam middleware <code>auth</code>.</li>
+</ul>
+<h2>C.8 Membuat Seeder Akun Petugas</h2>
+<ul>
+<li>File: <code>database/seeders/PetugasSeeder.php</code>.</li>
+<li>Faker menghasilkan nama dan email acak.</li>
+<li><code>unique()</code> mencegah email ganda.</li>
+<li>Password di-hash dengan <code>Hash::make()</code>.</li>
+<li>Seeder membuat 5 akun dummy dan 1 akun admin.</li>
+</ul>
+<pre><code class="language-php">$faker = Faker::create('id_ID');
+
+for ($i = 0; $i &lt; 5; $i++) {
+    DB::table('users')-&gt;insert([
+        'name' =&gt; $faker-&gt;name,
+        'email' =&gt; $faker-&gt;unique()-&gt;safeEmail,
+        'password' =&gt; Hash::make('password'),
+        'created_at' =&gt; now(),
+        'updated_at' =&gt; now(),
+    ]);
+}
+
+DB::table('users')-&gt;insert([
+    'name' =&gt; 'Admin BPBD',
+    'email' =&gt; 'admin@example.com',
+    'password' =&gt; Hash::make('admin123'),
+    'created_at' =&gt; now(),
+    'updated_at' =&gt; now(),
+]);
+</code></pre>
+<p>Akun yang dihasilkan:</p>
+<table class="data">
+<thead>
+<tr>
+<th>Akun</th>
+<th>Email</th>
+<th>Password</th>
+<th>Keterangan</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Admin BPBD</td>
+<td><code>admin@example.com</code></td>
+<td><code>admin123</code></td>
+<td>Akun admin untuk pengujian.</td>
+</tr>
+<tr>
+<td>5 akun dummy</td>
+<td>Email acak dari Faker</td>
+<td><code>password</code></td>
+<td>Akun petugas dummy.</td>
+</tr>
+</tbody>
+</table>
+<p><code>DatabaseSeeder</code> memanggil dua seeder:</p>
+<pre><code class="language-php">$this-&gt;call([
+    PetugasSeeder::class,
+    LaporanSeeder::class,
+]);
+</code></pre>
+<p>Dengan demikian, satu perintah <code>php artisan db:seed</code> mengisi akun petugas sekaligus data laporan.</p>
+<h2>C.9 Integrasi Fitur LaporBanjir dari Modul 4</h2>
+<p>Fitur LaporBanjir dipindahkan dari project Modul 4 ke project Modul 6. Bagian yang diintegrasikan meliputi migration, model, controller, view, dan seeder.</p>
+<h3>C.9.1 Migration Tabel Laporan</h3>
+<p>File: <code>database/migrations/2026_10_06_044521_create_laporan_table.php</code>.</p>
+<pre><code class="language-php">Schema::create('laporan', function (Blueprint $table) {
+    $table-&gt;id();
+    $table-&gt;string('nama_pelapor');
+    $table-&gt;string('lokasi');
+    $table-&gt;string('tinggi_genangan');
+    $table-&gt;string('tanggal_kejadian');
+    $table-&gt;timestamps();
+});
+</code></pre>
+<p>Kolom <code>tinggi_genangan</code> dan <code>tanggal_kejadian</code> disimpan sebagai string agar sesuai dengan implementasi Modul 4.</p>
+<h3>C.9.2 Model Laporan</h3>
+<p>File: <code>app/Models/Laporan.php</code>.</p>
+<pre><code class="language-php">class Laporan extends Model
+{
+    protected $table = 'laporan';
+
+    protected $fillable = [
+        'nama_pelapor',
+        'lokasi',
+        'tinggi_genangan',
+        'tanggal_kejadian',
+    ];
+}
+</code></pre>
+<ul>
+<li><code>$table</code> menegaskan nama tabel tunggal <code>laporan</code>.</li>
+<li><code>$fillable</code> mengizinkan mass assignment pada kolom yang digunakan form.</li>
+</ul>
+<h3>C.9.3 LaporanController</h3>
+<p>File: <code>app/Http/Controllers/LaporanController.php</code>.</p>
+<pre><code class="language-php">public function form()
+{
+    return view('form-laporan');
+}
+
+public function simpan(Request $request)
+{
+    $request-&gt;validate([
+        'nama_pelapor' =&gt; 'required',
+        'lokasi' =&gt; 'required',
+        'tinggi_genangan' =&gt; 'required',
+        'tanggal_kejadian' =&gt; 'required|date',
+    ]);
+
+    Laporan::create([
+        'nama_pelapor' =&gt; $request-&gt;nama_pelapor,
+        'lokasi' =&gt; $request-&gt;lokasi,
+        'tinggi_genangan' =&gt; $request-&gt;tinggi_genangan,
+        'tanggal_kejadian' =&gt; $request-&gt;tanggal_kejadian,
+    ]);
+
+    return view('hasil-laporan');
+}
+
+public function daftar()
+{
+    $laporan = Laporan::all();
+
+    return view('daftar-laporan', compact('laporan'));
+}
+</code></pre>
+<ul>
+<li><code>form()</code> menampilkan form laporan untuk warga.</li>
+<li><code>simpan()</code> memvalidasi input lalu menyimpan laporan ke database.</li>
+<li><code>daftar()</code> mengambil semua laporan untuk halaman petugas.</li>
+<li>Form laporan bersifat publik dan tidak memerlukan login.</li>
+</ul>
+<h3>C.9.4 Seeder Laporan</h3>
+<p>File: <code>database/seeders/LaporanSeeder.php</code>.</p>
+<pre><code class="language-php">$lokasi = [
+    'Dayeuhkolot',
+    'Baleendah',
+    'Bojongsoang',
+    'Rancaekek',
+    'Majalaya',
+];
+
+for ($i = 0; $i &lt; 15; $i++) {
+    DB::table('laporan')-&gt;insert([
+        'nama_pelapor' =&gt; $faker-&gt;name,
+        'lokasi' =&gt; $faker-&gt;randomElement($lokasi),
+        'tinggi_genangan' =&gt; $faker-&gt;numberBetween(10, 150),
+        'tanggal_kejadian' =&gt; $faker-&gt;dateTimeBetween('-1 month', 'now')-&gt;format('Y-m-d'),
+        'created_at' =&gt; now(),
+        'updated_at' =&gt; now(),
+    ]);
+}
+</code></pre>
+<p>Seeder menghasilkan 15 laporan dengan lokasi di kawasan Bandung dan sekitarnya.</p>
+<h3>C.9.5 Status Laporan</h3>
+<p>Halaman <code>daftar-laporan.blade.php</code> menentukan status berdasarkan tinggi genangan:</p>
+<table class="data">
+<thead>
+<tr>
+<th>Tinggi Genangan</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;= 50 cm</code></td>
+<td>Waspada</td>
+</tr>
+<tr>
+<td><code>51-100 cm</code></td>
+<td>Siaga</td>
+</tr>
+<tr>
+<td><code>&gt; 100 cm</code></td>
+<td>Awas</td>
+</tr>
+</tbody>
+</table>
+<p>Logika tersebut membuat daftar laporan lebih mudah dibaca oleh petugas.</p>
+<h2>C.10 Pembedaan Alur Warga dan Petugas</h2>
+<p>Pembedaan dilakukan pada tingkat tampilan dan akses halaman:</p>
+<table class="data">
+<thead>
+<tr>
+<th>Aspek</th>
+<th>Warga</th>
+<th>Petugas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Akun</td>
+<td>Tidak memiliki akun.</td>
+<td>Memiliki akun di tabel <code>users</code>.</td>
+</tr>
+<tr>
+<td>Registrasi</td>
+<td>Tidak perlu registrasi.</td>
+<td>Melalui <strong>Registrasi Petugas</strong>.</td>
+</tr>
+<tr>
+<td>Login</td>
+<td>Tidak perlu login.</td>
+<td>Melalui <strong>Login Petugas</strong>.</td>
+</tr>
+<tr>
+<td>Pintu masuk</td>
+<td>Menu <strong>Lapor Banjir</strong>.</td>
+<td>Menu <strong>Login Petugas</strong>.</td>
+</tr>
+<tr>
+<td>Halaman utama</td>
+<td>Form <code>/laporbanjir</code>.</td>
+<td>Dashboard, daftar laporan, profil.</td>
+</tr>
+<tr>
+<td>Melihat daftar laporan</td>
+<td>Tidak dapat mengakses <code>/daftar-laporan</code>.</td>
+<td>Dapat mengakses <code>/daftar-laporan</code>.</td>
+</tr>
+<tr>
+<td>Catatan pada form</td>
+<td>“Anda melapor sebagai warga tanpa login.”</td>
+<td>“Anda sedang login sebagai petugas; form ini adalah mode warga.”</td>
+</tr>
+</tbody>
+</table>
+<p>Dengan pembedaan ini:</p>
+<ul>
+<li>Warga tetap dapat melapor tanpa membuat akun.</li>
+<li>Petugas memiliki area khusus untuk melihat seluruh laporan.</li>
+<li>Petugas yang membuka form warga tetap melihat catatan bahwa form tersebut adalah mode warga.</li>
+<li>Menu petugas tidak menampilkan tautan <strong>Lapor Banjir</strong>, sedangkan menu guest menampilkannya.</li>
+</ul>
+<p>Perlu dicatat bahwa petugas masih dapat membuka <code>/laporbanjir</code> secara langsung. Form tersebut tetap berfungsi dan laporan yang dikirim tidak dikaitkan dengan akun petugas.</p>
+<h2>C.11 Pengujian</h2>
+<p>Jalankan server:</p>
+<pre><code class="language-bash">php artisan serve
+</code></pre>
+<p>Skenario pengujian yang dilakukan:</p>
+<ul>
+<li>Buka <code>/</code> sebagai guest; pastikan menu guest tampil.</li>
+<li>Buka <code>/dashboard</code> tanpa login; pastikan diarahkan ke <code>/login</code>.</li>
+<li>Registrasi akun baru; pastikan akun dibuat dan langsung masuk dashboard.</li>
+<li>Login dengan password salah; pastikan pesan galat tampil.</li>
+<li>Login <code>admin@example.com</code> / <code>admin123</code>; pastikan masuk dashboard.</li>
+<li>Buka <code>/profile</code>; pastikan nama, email, dan waktu pembuatan akun tampil.</li>
+<li>Logout; pastikan session dihapus dan kembali ke halaman awal.</li>
+<li>Kirim laporan sebagai guest; pastikan laporan tersimpan dan halaman hasil tampil.</li>
+<li>Buka <code>/daftar-laporan</code> sebagai guest; pastikan diarahkan ke <code>/login</code>.</li>
+<li>Login sebagai petugas dan buka <code>/daftar-laporan</code>; pastikan 15 laporan tampil.</li>
+<li>Buka <code>/laporbanjir</code> sebagai petugas; pastikan catatan mode warga tampil.</li>
+</ul>
+<p>Hasil pengujian otomatis dan pemeriksaan kode:</p>
+<ul>
+<li><code>php artisan test</code>: <strong>2 test lulus, 2 assertion</strong>.</li>
+<li><code>./vendor/bin/pint --test</code>: <strong>lulus</strong>.</li>
+<li><code>php artisan view:cache</code> dan <code>php artisan view:clear</code>: <strong>berhasil tanpa error</strong>.</li>
+</ul>
+<p>Data uji <code>juu@gmail.com</code> dan laporan “Uji Screenshot” dihapus kembali. Data akhir project: <strong>6 user</strong> (5 dummy + 1 admin) dan <strong>15 laporan</strong>. Verifikasi tabel <code>users</code> dan <code>laporan</code> dilakukan melalui phpMyAdmin; kolom <code>password</code> berisi hash, bukan password asli.</p>
+
+<h1 class="section">D. Hasil dan Dokumentasi Program</h1>
+<p>Bagian ini menampilkan hasil pengujian fitur authentication dan integrasi LaporBanjir. Pengujian dilakukan melalui browser dengan data akun hasil seeder.</p>
+<h2>D.1 Halaman Registrasi Petugas</h2>
+<figure class="figure"><img src="02-register-petugas.png" alt="Registrasi petugas" /><figcaption class="caption"><strong>Gambar 1.</strong> Halaman registrasi untuk membuat akun petugas.</figcaption></figure>
+<ul>
+<li>Form berisi nama, email, password, dan konfirmasi password.</li>
+<li>Terdapat catatan bahwa warga tidak perlu mendaftar.</li>
+<li>Tautan menuju form Lapor Banjir tersedia untuk warga.</li>
+</ul>
+<h2>D.2 Halaman Login Petugas</h2>
+<figure class="figure"><img src="03-login-petugas.png" alt="Login petugas" /><figcaption class="caption"><strong>Gambar 2.</strong> Halaman login petugas.</figcaption></figure>
+<ul>
+<li>Form meminta email dan password.</li>
+<li>Tersedia checkbox Remember Me.</li>
+<li>Halaman diberi label <strong>Login Petugas</strong> agar tidak tertukar dengan alur warga.</li>
+</ul>
+<h2>D.3 Pesan Galat Login</h2>
+<figure class="figure"><img src="04-login-error.png" alt="Pesan galat login" /><figcaption class="caption"><strong>Gambar 3.</strong> Pesan galat ketika kredensial salah.</figcaption></figure>
+<ul>
+<li>Pesan muncul pada alert dan di bawah input email.</li>
+<li>Pengguna tetap berada di halaman login.</li>
+</ul>
+<h2>D.4 Redirect ke Halaman Login</h2>
+<figure class="figure"><img src="05-redirect-login.png" alt="Redirect ke login" /><figcaption class="caption"><strong>Gambar 4.</strong> Redirect saat membuka dashboard tanpa login.</figcaption></figure>
+<ul>
+<li>Middleware <code>auth</code> mencegah akses.</li>
+<li>Pengguna diarahkan ke route <code>login</code>.</li>
+<li>Setelah login, pengguna dapat diarahkan kembali ke halaman yang dituju.</li>
+</ul>
+<h2>D.5 Dashboard Setelah Login</h2>
+<figure class="figure"><img src="08-dashboard-petugas.png" alt="Dashboard petugas" /><figcaption class="caption"><strong>Gambar 5.</strong> Dashboard setelah petugas berhasil login.</figcaption></figure>
+<ul>
+<li>Dashboard menampilkan konfirmasi bahwa pengguna sudah login.</li>
+<li>Menu berubah menjadi Dashboard, Daftar Laporan, Profil Petugas, dan Logout.</li>
+<li>Halaman dilindungi middleware <code>auth</code>.</li>
+<li>Setelah logout, session dihapus dan tampilan kembali ke mode guest.</li>
+</ul>
+<h2>D.6 Profil Petugas</h2>
+<figure class="figure"><img src="09-profil-petugas.png" alt="Profil petugas" /><figcaption class="caption"><strong>Gambar 6.</strong> Halaman profil petugas.</figcaption></figure>
+<ul>
+<li>Profil menampilkan nama, email, dan waktu pembuatan akun.</li>
+<li>Data diambil dari <code>Auth::user()</code>.</li>
+<li>Waktu akun dibuat ditampilkan dengan <code>diffForHumans()</code>.</li>
+</ul>
+<h2>D.7 Tabel Users Hasil Seeder</h2>
+<figure class="figure wide"><img src="12-tabel-users.png" alt="Tabel users" /><figcaption class="caption"><strong>Gambar 7.</strong> Data akun hasil seeder pada tabel <code>users</code> melalui phpMyAdmin.</figcaption></figure>
+<ul>
+<li>Tabel berisi 6 baris: 5 akun dummy dengan nama Faker dan 1 akun <code>Admin BPBD</code> (<code>admin@example.com</code>).</li>
+<li>Kolom yang tampak: <code>id</code>, <code>name</code>, <code>email</code>, <code>email_verified_at</code>, <code>password</code>, <code>remember_token</code>, <code>created_at</code>, dan <code>updated_at</code>.</li>
+<li>Kolom <code>password</code> berisi hash bcrypt <code>$2y$12$...</code>; password asli tidak ditampilkan.</li>
+<li>Data dibuat pada 2026-10-21 pukul 17:55:19-17:55:20.</li>
+</ul>
+<h2>D.8 Halaman Awal</h2>
+<figure class="figure"><img src="01-halaman-awal.png" alt="Halaman awal" /><figcaption class="caption"><strong>Gambar 8.</strong> Halaman awal dengan navigasi warga dan petugas.</figcaption></figure>
+<ul>
+<li>Guest melihat <strong>Lapor Banjir</strong>, <strong>Login Petugas</strong>, dan <strong>Registrasi Petugas</strong>.</li>
+<li>Halaman awal menggunakan tampilan bawaan Laravel dengan tambahan navigasi project.</li>
+<li>Warna halaman mengikuti preferensi tema sistem; dokumentasi ini memakai mode terang agar konsisten.</li>
+</ul>
+<h2>D.9 Form Laporan Warga</h2>
+<figure class="figure"><img src="06-form-laporan-warga.png" alt="Form laporan warga" /><figcaption class="caption"><strong>Gambar 9.</strong> Form laporan untuk warga tanpa login.</figcaption></figure>
+<ul>
+<li>Form berisi nama pelapor, lokasi, tinggi genangan, dan tanggal kejadian.</li>
+<li>Muncul catatan “Anda melapor sebagai warga tanpa login.”</li>
+<li>Form dapat diakses tanpa akun.</li>
+</ul>
+<h2>D.10 Laporan Berhasil Disimpan</h2>
+<figure class="figure"><img src="07-hasil-laporan.png" alt="Laporan berhasil disimpan" /><figcaption class="caption"><strong>Gambar 10.</strong> Halaman hasil setelah laporan dikirim.</figcaption></figure>
+<ul>
+<li>Laporan berhasil masuk ke tabel <code>laporan</code>.</li>
+<li>Pesan sukses ditampilkan melalui komponen <code>x-alert</code>.</li>
+</ul>
+<h2>D.11 Form Laporan Saat Login sebagai Petugas</h2>
+<figure class="figure"><img src="10-form-laporan-petugas.png" alt="Form laporan petugas" /><figcaption class="caption"><strong>Gambar 11.</strong> Form laporan saat dibuka oleh petugas.</figcaption></figure>
+<ul>
+<li>Form tetap dapat dibuka oleh petugas.</li>
+<li>Muncul catatan “Anda sedang login sebagai petugas; form ini adalah mode warga.”</li>
+<li>Laporan yang dikirim melalui form ini tidak dikaitkan dengan akun petugas.</li>
+</ul>
+<h2>D.12 Daftar Laporan Petugas</h2>
+<figure class="figure"><img src="11-daftar-laporan.png" alt="Daftar laporan" /><figcaption class="caption"><strong>Gambar 12.</strong> Bagian awal halaman daftar laporan petugas.</figcaption></figure>
+<ul>
+<li>Halaman menampilkan nama pelapor, lokasi, tinggi genangan, tanggal, dan status.</li>
+<li>Status ditentukan dari tinggi genangan: Waspada, Siaga, atau Awas.</li>
+<li>Halaman hanya dapat diakses setelah login.</li>
+</ul>
+<h2>D.13 Tabel Laporan</h2>
+<figure class="figure"><img src="13-tabel-laporan.png" alt="Tabel laporan" /><figcaption class="caption"><strong>Gambar 13.</strong> Ringkasan isi tabel <code>laporan</code> dari database <code>db_laporanbanjir</code>.</figcaption></figure>
+<ul>
+<li>Tabel berisi 15 laporan hasil <code>LaporanSeeder</code>.</li>
+<li>Kolom yang tampak: <code>id</code>, <code>nama_pelapor</code>, <code>lokasi</code>, <code>tinggi_genangan</code>, <code>tanggal_kejadian</code>, <code>created_at</code>, dan <code>updated_at</code>.</li>
+<li>Lokasi tersebar di Dayeuhkolot, Baleendah, Bojongsoang, Rancaekek, dan Majalaya.</li>
+<li>Tinggi genangan pada data ini berkisar 24-141 cm.</li>
+<li>Tanggal kejadian berkisar 22 September-17 Oktober 2026.</li>
+</ul>
+
+<h1 class="section">E. Analisis dan Pembahasan</h1>
+<h2>E.1 Perbedaan Aplikasi Sebelum dan Sesudah Authentication</h2>
+<p>Sebelum authentication diterapkan, seluruh halaman dapat dibuka tanpa identitas pengguna. Setelah authentication diterapkan, aplikasi memiliki pembeda status guest dan petugas yang login.</p>
+<table class="data">
+<thead>
+<tr>
+<th>Aspek</th>
+<th>Sebelum Authentication</th>
+<th>Sesudah Authentication</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Status pengguna</td>
+<td>Semua pengunjung dianggap sama.</td>
+<td>Guest dan petugas dibedakan.</td>
+</tr>
+<tr>
+<td>Akun</td>
+<td>Tidak ada akun petugas.</td>
+<td>Akun tersimpan di tabel <code>users</code>.</td>
+</tr>
+<tr>
+<td>Login</td>
+<td>Tidak ada proses login.</td>
+<td>Login memakai email dan password.</td>
+</tr>
+<tr>
+<td>Session</td>
+<td>Tidak ada status login.</td>
+<td>Status login disimpan di session.</td>
+</tr>
+<tr>
+<td>Menu</td>
+<td>Menu belum berubah berdasarkan status.</td>
+<td>Menu guest dan petugas berbeda.</td>
+</tr>
+<tr>
+<td>Dashboard</td>
+<td>Dapat dibuka siapa saja.</td>
+<td>Hanya dapat dibuka setelah login.</td>
+</tr>
+<tr>
+<td>Profil</td>
+<td>Tidak ada halaman profil pengguna.</td>
+<td>Profil menampilkan data petugas yang login.</td>
+</tr>
+<tr>
+<td>Daftar laporan</td>
+<td>Dapat diakses tanpa pembatasan.</td>
+<td>Dilindungi middleware <code>auth</code>.</td>
+</tr>
+<tr>
+<td>Logout</td>
+<td>Tidak ada proses logout.</td>
+<td>Session dihapus dan pengguna kembali menjadi guest.</td>
+</tr>
+</tbody>
+</table>
+<p>Perubahan utama terlihat pada navigasi dan akses halaman. Guest tetap dapat mengirim laporan melalui form publik, tetapi halaman pengelolaan laporan hanya tersedia untuk petugas yang sudah login.</p>
+<h2>E.2 Authentication Manual</h2>
+<p>Authentication pada project ini dibuat sepenuhnya secara manual:</p>
+<ul>
+<li>Register menggunakan <code>User::create()</code> dan <code>Hash::make()</code>.</li>
+<li>Login menggunakan <code>Auth::attempt()</code>.</li>
+<li>Logout menggunakan <code>Auth::logout()</code>, <code>invalidate()</code>, dan <code>regenerateToken()</code>.</li>
+<li>Halaman petugas dilindungi middleware <code>auth</code>.</li>
+</ul>
+<p>Pendekatan manual membuat alur authentication terlihat jelas dan mudah dipelajari. Setiap langkah, mulai dari validasi, penyimpanan, pembuatan session, sampai logout, ditulis secara eksplisit.</p>
+<h2>E.3 Perbandingan Authentication Manual dan Breeze</h2>
+<table class="data">
+<thead>
+<tr>
+<th>Aspek</th>
+<th>Manual</th>
+<th>Breeze</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pembuatan</td>
+<td>Ditulis sendiri</td>
+<td>Otomatis</td>
+</tr>
+<tr>
+<td>Fitur</td>
+<td>Sesuai kebutuhan</td>
+<td>Lengkap</td>
+</tr>
+<tr>
+<td>Pemahaman alur</td>
+<td>Lebih jelas</td>
+<td>Sebagian disembunyikan</td>
+</tr>
+<tr>
+<td>Front-end</td>
+<td>Bootstrap CDN</td>
+<td>Tailwind dan Vite</td>
+</tr>
+<tr>
+<td>Dependensi</td>
+<td>Sedikit</td>
+<td>Lebih banyak</td>
+</tr>
+<tr>
+<td>Risiko konflik</td>
+<td>Rendah karena terkontrol</td>
+<td>Dapat menimpa route dan view</td>
+</tr>
+</tbody>
+</table>
+<p>Modul 6 membahas dua jalur: Breeze pada subbab 6.4.5 dan manual pada subbab 6.4.10. Untuk tugas LaporBanjir, modul secara khusus meminta authentication manual tanpa Breeze. Project ini mengikuti ketentuan tersebut agar alur validasi, hashing, session, dan middleware terlihat langsung. Breeze tidak dipasang sehingga tidak ada route atau view tambahan yang tidak digunakan.</p>
+<h2>E.4 Peran Session</h2>
+<ul>
+<li>Session menyimpan status login pengguna.</li>
+<li>Karena <code>SESSION_DRIVER=database</code>, data session disimpan di tabel <code>sessions</code>.</li>
+<li>Laravel mengirim cookie session pada setiap request.</li>
+<li><code>session()-&gt;regenerate()</code> mencegah session fixation setelah login.</li>
+<li><code>invalidate()</code> menghapus session saat logout.</li>
+<li><code>regenerateToken()</code> mengganti token CSRF setelah logout.</li>
+</ul>
+<h2>E.5 Hashing Password</h2>
+<ul>
+<li>Password tidak disimpan sebagai teks asli.</li>
+<li><code>Hash::make()</code> menghasilkan hash bcrypt.</li>
+<li>Hash tidak dapat dikembalikan menjadi password asli.</li>
+<li><code>Auth::attempt()</code> mencocokkan password dengan hash.</li>
+<li>Password hash diawali <code>$2y$</code>.</li>
+<li>Seeder juga memakai <code>Hash::make()</code> agar akun dummy dapat login.</li>
+</ul>
+<h2>E.6 Peran Middleware</h2>
+<ul>
+<li>Middleware <code>auth</code> melindungi dashboard, profil, dan daftar laporan.</li>
+<li>Pengguna yang belum login diarahkan ke route <code>login</code>.</li>
+<li>Route <code>login</code> wajib memiliki nama <code>login</code> agar redirect bekerja.</li>
+<li>Pada implementasi ini, route login dan register tidak memakai middleware <code>guest</code>.</li>
+<li>Penambahan middleware <code>guest</code> dapat menjadi pengembangan berikutnya agar pengguna yang sudah login tidak membuka form login lagi.</li>
+</ul>
+<h2>E.7 Alasan Halaman Wajib Login</h2>
+<p>Halaman <strong>dashboard</strong>, <strong>profil</strong>, dan <strong>daftar laporan</strong> dipilih sebagai halaman wajib login karena berisi fungsi pengelolaan internal petugas:</p>
+<ul>
+<li>Dashboard menjadi pusat navigasi setelah petugas berhasil login.</li>
+<li>Profil menampilkan data akun yang bersifat pribadi.</li>
+<li>Daftar laporan memuat seluruh laporan warga dan digunakan petugas untuk memantau kondisi banjir.</li>
+</ul>
+<p>Sebaliknya, halaman awal dan form <strong>Lapor Banjir</strong> tetap publik karena warga harus dapat melapor tanpa membuat akun. Dengan pembagian ini, akses warga tetap mudah, tetapi data pengelolaan tidak terbuka untuk umum.</p>
+<h2>E.8 Seeder dan Faker</h2>
+<ul>
+<li>Faker menghasilkan nama dan email acak.</li>
+<li><code>unique()</code> mencegah email duplikat.</li>
+<li><code>Hash::make()</code> memastikan akun dummy memiliki password yang valid.</li>
+<li>Seeder mempercepat pembuatan data untuk pengujian.</li>
+<li><code>LaporanSeeder</code> menghasilkan 15 laporan untuk menguji halaman daftar.</li>
+<li><code>DatabaseSeeder</code> memastikan kedua seeder dijalankan dalam satu perintah.</li>
+</ul>
+<h2>E.9 Integrasi LaporBanjir</h2>
+<ul>
+<li>Fitur LaporBanjir dari Modul 4 berhasil diintegrasikan ke Modul 6.</li>
+<li>Form laporan tetap publik.</li>
+<li>Data laporan disimpan ke tabel <code>laporan</code>.</li>
+<li>Halaman daftar laporan dilindungi middleware <code>auth</code>.</li>
+<li>Status laporan dihitung dari tinggi genangan.</li>
+<li>Integrasi tidak mengubah alur authentication yang sudah dibuat.</li>
+</ul>
+<h2>E.10 Pembedaan Warga dan Petugas</h2>
+<p>Pembedaan saat ini berada pada tingkat tampilan dan akses halaman:</p>
+<ul>
+<li>Warga tidak memiliki akun dan melapor melalui form publik.</li>
+<li>Petugas memiliki akun dan dapat melihat seluruh laporan.</li>
+<li>Menu guest dan menu petugas berbeda.</li>
+<li>Form laporan menampilkan catatan sesuai status login.</li>
+</ul>
+<p>Namun, pembedaan ini belum sepenuhnya ditegakkan pada tingkat data dan hak akses:</p>
+<ul>
+<li>Tabel <code>users</code> belum memiliki kolom <code>role</code>.</li>
+<li>Siapa pun yang melakukan registrasi akan menjadi petugas.</li>
+<li>Tabel <code>laporan</code> belum memiliki <code>user_id</code> atau <code>jenis_pelapor</code>.</li>
+<li>Laporan warga dan laporan yang dikirim saat login petugas tidak dapat dibedakan di database.</li>
+<li>Petugas tetap dapat membuka form warga.</li>
+</ul>
+<p>Jika ingin pembedaan yang lebih kuat, pengembangan berikutnya dapat menambahkan:</p>
+<ol>
+<li>Kolom <code>role</code> pada tabel <code>users</code> (<code>warga</code> atau <code>petugas</code>).</li>
+<li>Middleware khusus untuk membatasi area petugas.</li>
+<li>Kolom <code>user_id</code> atau <code>jenis_pelapor</code> pada tabel <code>laporan</code>.</li>
+<li>Halaman riwayat laporan untuk warga.</li>
+<li>Pembatasan registrasi petugas hanya melalui admin.</li>
+</ol>
+<h2>E.11 Kendala dan Solusi</h2>
+<table class="data">
+<thead>
+<tr>
+<th>Kendala</th>
+<th>Penyebab</th>
+<th>Solusi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Koneksi database gagal</td>
+<td>MySQL belum aktif atau port salah</td>
+<td>Jalankan MySQL dan gunakan port <code>3307</code>.</td>
+</tr>
+<tr>
+<td>Status login tidak bertahan</td>
+<td>Tabel <code>sessions</code> tidak ada</td>
+<td>Jalankan migration.</td>
+</tr>
+<tr>
+<td><code>419 Page Expired</code></td>
+<td>Token CSRF tidak dikirim atau session berubah</td>
+<td>Pastikan <code>@csrf</code> ada dan gunakan session yang sama.</td>
+</tr>
+<tr>
+<td><code>Route [login] not defined</code></td>
+<td>Route login tidak diberi nama</td>
+<td>Tambahkan <code>-&gt;name('login')</code>.</td>
+</tr>
+<tr>
+<td>Login gagal</td>
+<td>Password tidak di-hash</td>
+<td>Gunakan <code>Hash::make()</code>.</td>
+</tr>
+<tr>
+<td>Email duplikat</td>
+<td>Seeder dijalankan berulang</td>
+<td>Gunakan email unik atau reset database.</td>
+</tr>
+<tr>
+<td>Data uji tertinggal</td>
+<td>Proses pengujian membuat akun/laporan baru</td>
+<td>Hapus data uji setelah pengujian.</td>
+</tr>
+<tr>
+<td>Tautan daftar laporan tidak dapat dibuka warga</td>
+<td>Halaman dilindungi middleware <code>auth</code></td>
+<td>Login sebagai petugas terlebih dahulu.</td>
+</tr>
+</tbody>
+</table>
+<h2>E.12 Catatan Keamanan</h2>
+<ul>
+<li>Gunakan <code>@csrf</code> pada setiap form.</li>
+<li>Simpan password dalam bentuk hash.</li>
+<li>Gunakan method <code>POST</code> untuk logout.</li>
+<li>Regenerasi session setelah login.</li>
+<li>Lindungi halaman petugas dengan middleware.</li>
+<li>Jangan mengunggah file <code>.env</code> ke repositori.</li>
+<li>Ganti password admin dengan password yang lebih kuat pada produksi.</li>
+<li>Aktifkan <code>APP_DEBUG=false</code> pada produksi.</li>
+<li>Tambahkan rate limiting pada login untuk mencegah brute force.</li>
+<li>Tambahkan validasi role jika aplikasi digunakan oleh lebih dari satu jenis pengguna.</li>
+</ul>
+
+<h1 class="section">F. Kesimpulan</h1>
+<ul>
+<li>Authentication manual berhasil dibuat tanpa Laravel Breeze.</li>
+<li>Register, login, dan logout berjalan sesuai alur yang dirancang.</li>
+<li><code>Hash::make()</code> menjaga password tetap aman.</li>
+<li><code>Auth::attempt()</code> memverifikasi kredensial pengguna.</li>
+<li>Middleware <code>auth</code> melindungi dashboard, profil, dan daftar laporan.</li>
+<li>Session login bertahan karena tabel <code>sessions</code> tersedia.</li>
+<li>Seeder dan Faker mempercepat pembuatan akun petugas dummy.</li>
+<li>Fitur LaporBanjir dari Modul 4 berhasil diintegrasikan.</li>
+<li>Warga dapat melapor tanpa akun, sedangkan petugas dapat melihat daftar laporan.</li>
+<li>Pembedaan warga dan petugas masih berada pada tingkat tampilan dan akses halaman.</li>
+<li>Pembatasan berbasis role dan pencatatan identitas pelapor dapat ditambahkan pada pengembangan berikutnya.</li>
+</ul>
+
+</body>
+</html>
